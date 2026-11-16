@@ -47,7 +47,40 @@ function Gauge({ score, verdict }) {
   )
 }
 
-export default function ResultCard({ result, loading }) {
+function MLPanel({ ml, source, ruleScore }) {
+  if (!ml) {
+    return (
+      <div className="ml-panel ml-offline">
+        Backend offline: showing rule-based checks only. Start the API for the ML model.
+      </div>
+    )
+  }
+  const pct = Math.round(ml.fraud_probability * 100)
+  return (
+    <div className="ml-panel">
+      <div className="ml-row">
+        <span>🤖 ML model <b>({ml.model})</b></span>
+        <b className={pct >= 50 ? 'text-fraud' : 'text-safe'}>{pct}% fraud</b>
+      </div>
+      <div className="ml-bar"><div style={{ width: `${pct}%` }} className={pct >= 50 ? 'bg-fraud' : 'bg-safe'} /></div>
+      {ruleScore != null && (
+        <div className="muted ml-note">Final score = 60% ML + 40% rule checks (rules: {ruleScore}/100)</div>
+      )}
+    </div>
+  )
+}
+
+export default function ResultCard({ result, loading, error }) {
+  if (error) {
+    return (
+      <div className="card result empty">
+        <div className="empty-icon">⚠️</div>
+        <h3>Couldn’t check this message</h3>
+        <p>{error}</p>
+      </div>
+    )
+  }
+
   if (loading) {
     return (
       <div className="card result empty">
@@ -79,6 +112,8 @@ export default function ResultCard({ result, loading }) {
           {result.sender && <p className="muted">Sender: <b>{result.sender}</b></p>}
         </div>
       </div>
+
+      <MLPanel ml={result.ml} source={result.source} ruleScore={result.rule_score} />
 
       <h4>Red flags found ({result.flags.length})</h4>
       {result.flags.length ? (

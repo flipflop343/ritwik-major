@@ -2,7 +2,8 @@ const FEATURES = [
   { icon: '🔍', title: 'Message pattern analysis', text: 'Detects KYC, OTP, prize and card-fraud language.', status: 'live' },
   { icon: '🌐', title: 'Internet search', text: 'Search the web for complaints about the number or link.', status: 'soon' },
   { icon: '📇', title: 'Number reputation lookup', text: 'Check the sender against a crowd-sourced fraud database.', status: 'soon' },
-  { icon: '🤖', title: 'ML fraud model', text: 'Trained classifier for SMS and credit-card fraud.', status: 'soon' },
+  { icon: '🤖', title: 'ML fraud classifier', text: 'Naive Bayes, Logistic Regression and SVM compared; best model scores every message.', status: 'live' },
+  { icon: '🧠', title: 'RAG explanations', text: 'Match against known scams and explain the verdict with sources.', status: 'soon' },
   { icon: '🔗', title: 'URL safety scan', text: 'Check links against phishing and malware lists.', status: 'soon' },
   { icon: '📣', title: 'Report a number', text: 'Let users report fraud numbers to protect others.', status: 'soon' },
 ]

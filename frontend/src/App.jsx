@@ -29,13 +29,21 @@ export default function App() {
     }
   }, [history])
 
+  const [error, setError] = useState('')
+
   const handleCheck = async (input) => {
     setLoading(true)
     setResult(null)
-    const res = await analyzeMessage(input)
-    setResult(res)
-    setHistory((h) => [res, ...h].slice(0, 10))
-    setLoading(false)
+    setError('')
+    try {
+      const res = await analyzeMessage(input)
+      setResult(res)
+      setHistory((h) => [res, ...h].slice(0, 10))
+    } catch (e) {
+      setError(e.message || 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -54,7 +62,7 @@ export default function App() {
 
         <div className="grid">
           <MessageChecker onCheck={handleCheck} loading={loading} />
-          <ResultCard result={result} loading={loading} />
+          <ResultCard result={result} loading={loading} error={error} />
         </div>
 
         <HistoryList

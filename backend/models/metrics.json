@@ -1,0 +1,114 @@
+{
+  "trained_at": "2026-11-16T17:46:16+00:00",
+  "best_model": "Linear SVM",
+  "selection": "highest 5-fold cross-validated F1 on the 80% training split",
+  "dataset": {
+    "total": 5282,
+    "fraud": 707,
+    "legit": 4575,
+    "custom_examples": 111,
+    "train_size": 4225,
+    "test_size": 1057
+  },
+  "models": {
+    "Naive Bayes": {
+      "cv_f1_mean": 0.927,
+      "cv_f1_std": 0.0146,
+      "cv_precision": 0.9222,
+      "cv_recall": 0.9327,
+      "test": {
+        "accuracy": 0.9849,
+        "precision": 0.9315,
+        "recall": 0.9577,
+        "f1": 0.9444,
+        "roc_auc": 0.9958,
+        "confusion_matrix": {
+          "tn": 905,
+          "fp": 10,
+          "fn": 6,
+          "tp": 136
+        }
+      },
+      "test_custom_only": {
+        "accuracy": 0.8182,
+        "precision": 0.7333,
+        "recall": 1.0,
+        "f1": 0.8462,
+        "roc_auc": 1.0,
+        "confusion_matrix": {
+          "tn": 7,
+          "fp": 4,
+          "fn": 0,
+          "tp": 11
+        }
+      },
+      "train_seconds": 13.24
+    },
+    "Logistic Regression": {
+      "cv_f1_mean": 0.9497,
+      "cv_f1_std": 0.0094,
+      "cv_precision": 0.9638,
+      "cv_recall": 0.9363,
+      "test": {
+        "accuracy": 0.9924,
+        "precision": 0.9718,
+        "recall": 0.9718,
+        "f1": 0.9718,
+        "roc_auc": 0.9977,
+        "confusion_matrix": {
+          "tn": 911,
+          "fp": 4,
+          "fn": 4,
+          "tp": 138
+        }
+      },
+      "test_custom_only": {
+        "accuracy": 0.9545,
+        "precision": 0.9167,
+        "recall": 1.0,
+        "f1": 0.9565,
+        "roc_auc": 0.9752,
+        "confusion_matrix": {
+          "tn": 10,
+          "fp": 1,
+          "fn": 0,
+          "tp": 11
+        }
+      },
+      "train_seconds": 17.99
+    },
+    "Linear SVM": {
+      "cv_f1_mean": 0.9504,
+      "cv_f1_std": 0.0092,
+      "cv_precision": 0.9692,
+      "cv_recall": 0.9327,
+      "test": {
+        "accuracy": 0.9934,
+        "precision": 0.9787,
+        "recall": 0.9718,
+        "f1": 0.9753,
+        "roc_auc": 0.9983,
+        "confusion_matrix": {
+          "tn": 912,
+          "fp": 3,
+          "fn": 4,
+          "tp": 138
+        }
+      },
+      "test_custom_only": {
+        "accuracy": 0.9545,
+        "precision": 0.9167,
+        "recall": 1.0,
+        "f1": 0.9565,
+        "roc_auc": 0.9752,
+        "confusion_matrix": {
+          "tn": 10,
+          "fp": 1,
+          "fn": 0,
+          "tp": 11
+        }
+      },
+      "train_seconds": 22.4
+    }
+  }
+}

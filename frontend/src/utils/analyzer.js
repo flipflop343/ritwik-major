@@ -63,9 +63,33 @@ function senderFlags(sender) {
   return { flags, score }
 }
 
-export function analyzeMessage({ message, sender }) {
+/**
+ * Calls the FastAPI backend (ML classifier + rules). If the backend isn't
+ * running, falls back to the in-browser rules so the UI still works.
+ */
+export async function analyzeMessage({ message, sender }) {
+  let res
+  try {
+    res = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, sender: sender || null }),
+    })
+  } catch {
+    return analyzeLocally({ message, sender }) // network error: backend unreachable
+  }
+
+  if (res.ok) return res.json()
+  if (res.status === 422) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.detail?.[0]?.msg || 'The message or sender number is invalid.')
+  }
+  // Backend down (proxy 5xx) or model not trained (503): use local rules.
+  return analyzeLocally({ message, sender })
+}
+
+function analyzeLocally({ message, sender }) {
   return new Promise((resolve) => {
-    // Simulate network latency so loading states are visible.
     setTimeout(() => {
       const flags = RULES.filter((r) => r.pattern.test(message)).map(({ id, label, weight }) => ({ id, label, weight }))
       let score = flags.reduce((s, f) => s + f.weight, 0)
@@ -97,8 +121,10 @@ export function analyzeMessage({ message, sender }) {
         flags,
         numbers,
         links,
+        ml: null,
+        source: 'offline',
       })
-    }, 900)
+    }, 500)
   })
 }
 
